@@ -4,7 +4,7 @@
   "description": "the web-app for Wikipedia Text Classification",
   "scripts": {
     "server": "http-server",
-    "start": "concurrently \"http-server -a localhost -p 8888\" \"open http://localhost:8888\""
+    "start": "concurrently \"http-server -a localhost -p 8888\" \"open http://localhost:8888/website_dev\""
   },
   "author": "boya chen",
   "license": "ISC",

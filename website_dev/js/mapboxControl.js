@@ -46,12 +46,12 @@ function init(map) {
 
         document.getElementById('info').style.display = 'block';
         document.getElementById('info').innerHTML = "<h4>Wikipedia Text Classification</h4>";
-        // console.log(e)
+        // console.letog(e)
     });
     map.on('load', function () {
 
         // Setting the url for the Topic 1
-        let geojsonUrl = "data/ent_geojson_3377_with_sents.json";
+        let geojsonUrl = "../python_dev/ent_geojson_3377_with_sents.json";
 
         let layerID = "aus_entities";
 
