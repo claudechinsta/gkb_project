@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Wikipedia Text Classification</title>
+</head>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!--<script src="js/jquery.min.js"></script>-->
+<script src="js/jquery-3.0.0.js"></script>
+<script src="js/jquery-migrate-3.0.0.js"></script>
+
+<script src="js/bootstrap.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet"/>
+<link href="css/styleSheets.css" rel="stylesheet">
+
+<!-- Import the Google Font Stylesheet -->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lobster+Two" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+
+<!-- Mapbox GL JS -->
+<script src='https://api.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+
+<script src="js/bootstrap.min.js"></script>
+
+<!-- The main JS for controling events of Mapbox -->
+<script src="js/mapboxControl.js"></script>
+
+<style type="text/css">
+    #wrapper {
+        position: relative;
+    }
+    #mapLayout{
+        float: right;
+        height: 100%;
+        width:100%;
+        position: absolute;
+    }
+    .marker {
+        display: block;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 0;
+    }
+</style>
+
+
+<body style="overflow-x: hidden; overflow-y: hidden">
+<!-- Map Container -->
+<div id="mapLayout">
+    <!-- Deprecated Leaflet Method-->
+    <script language="javascript">
+        // MapBox API Initialization
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2hpbnN0YSIsImEiOiJjaW15ZnFyN3cwNDN5dm9sdWJ2am5xNmdlIn0.vG5mqJyfSX3JBSQ3UQ6ORw';
+        let initZoom = 3.5;
+        let initCenter = [133.7751, -25.2744];
+        // Initialize the map
+        let map = new mapboxgl.Map({
+            container: 'mapLayout',
+            center: initCenter,
+            zoom: initZoom,
+            style: 'mapbox://styles/mapbox/light-v9',
+        });
+        window.onload = init(map);
+    </script>
+</div>
+
+<!--MENU CONTENT-->
+<div class="menuback" onclick="location='../'">INDEX</div>
+<div class="menuback" style="margin-right: 55px" onclick="toggleHelp()">INFO</div>
+<div class="menuback" style="margin-right: 105px" onclick="toggleSearch()">SEARCH</div>
+<div id="searchBar">
+    <div class="input-group">
+        <input id="searchContent" type="text" class="form-control" placeholder="Search for... e.g., 'melbourne university'">
+        <span class="input-group-btn">
+        <button id="searchBtn" class="btn btn-default" type="button">Go</button>
+      </span>
+    </div>
+    <script>
+        function searchEvent(){
+            data = $("#searchContent").val();
+            console.log(data);
+        }
+    </script>
+</div>
+<div id="helpPanel">
+    <h3>QUICK INSTRUCTION</h3>
+    <div id="instruction_content">
+        <p>This Web-app is the demo for my research project, the "Geolocation Knowledge Base - Text classification",
+        in 2017.</p>
+        <p>In this demo web application, you can click any points display on the
+        map to get a popup of a short sentence about the chosen entity's geolocation information. You can also click the
+        "WIKIPEDIA PAGE" button on the popup to get a embedded wikipedia page. Button "FLY HERE" is used for quickly
+        zoom in the entity</p>
+    </div>
+    <div><img style="margin: 20px 0; box-shadow: 0 0 5px #333333" src="./imgs/popup_demo.png" width="220"></div>
+
+    <h3>GITHUB SOURCE CODE</h3>
+    <div class="wikibtn" style="margin-top: 20px;" onclick="location.href='https://github.com/claudechinsta/claudechinsta.github.io/tree/master/proj_wiki_text_clf'">LINK HERE</div>
+
+    <h3>IPYTHON NOTEBOOK</h3>
+    <div class="wikibtn" style="margin-top: 20px;" onclick="location.href='https://github.com/claudechinsta/claudechinsta.github.io/blob/master/notebookes/GBK_Text_Classification.ipynb'">BOW + Ngram + POS tagging ipynb</div>
+    <div class="wikibtn" style="margin-top: 5px;" onclick="location.href='https://github.com/claudechinsta/claudechinsta.github.io/blob/master/notebookes/GKB_Word2vec.ipynb'">Word2Vec ipynh</div>
+</div>
+
+<script>
+    function toggleHelp(){
+        $("#helpPanel").fadeIn(100)
+            .scrollTop(0);
+    }
+    function toggleSearch(){
+        if($("#searchBar").css("top") !== '10px'){
+            $("#searchBar").animate({"top": '10px'}, 200);
+        }else{
+            $("#searchBar").animate({"top": '-50px'}, 200);
+        }
+
+        $("#searchContent").val("")
+    }
+    $("#mapLayout").click(function () {
+        $("#helpPanel").fadeOut(100);
+    })
+</script>
+
+<!-- add html elements to the legend !-->
+<div id='legend' class='legend'></div>
+<script>
+    $(".legend").html("<h4>Entity Type</h4>" +
+        "<div><span style='background-color: "+colorMap_dict["place"]+"'></span>Place</div>" +
+        "<div><span style='background-color: "+colorMap_dict["building"]+"'></span>Building</div>" +
+        "<div><span style='background-color: "+colorMap_dict["leisure"]+"'></span>Leisure & Tourism</div>" +
+        "<div><span style='background-color: "+colorMap_dict["amenity"]+"'></span>Amenity & Office</div>" +
+        "<div><span style='background-color: "+colorMap_dict["aeroway"]+"'></span>Aeroway</div>" +
+        "<div><span style='background-color: "+colorMap_dict["waterway"]+"'></span>Waterway</div>" +
+        "<div><span style='background-color: "+colorMap_dict["public_transport"]+"'></span>Public Transport</div>" +
+        "<div><span style='background-color: "+colorMap_dict["route"]+"'></span>Route</div>" +
+        "<div><span style='background-color: "+colorMap_dict["natural"]+"'></span>Natural</div>" +
+        "<div><span style='background-color: "+colorMap_dict["landuse"]+"'></span>Landuse</div>" +
+        "<div><span style='background-color: "+colorMap_dict["other"]+"'></span>Other</div>");
+</script>
+<div id='info'></div>
+
+</body>
+</html>

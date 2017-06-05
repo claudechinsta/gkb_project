@@ -1,0 +1,15 @@
+{
+  "name": "wikipedia_text_classification",
+  "version": "1.0.0",
+  "description": "the web-app for Wikipedia Text Classification",
+  "scripts": {
+    "server": "http-server",
+    "start": "concurrently \"http-server -a localhost -p 8888\" \"open http://localhost:8888\""
+  },
+  "author": "boya chen",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^3.4.0",
+    "http-server": "^0.10.0"
+  }
+}
