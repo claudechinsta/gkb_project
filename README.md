@@ -19,7 +19,7 @@ folder path: ./
 | node_modules | installed NodeJS modules |
 
 ### Source Code for Machine Learning (Python)
-folder path: ./pathon_dev
+folder path: ./pathon_dev <br>
 python enviroment: 2.7.10
 
 | File Names | Description |
